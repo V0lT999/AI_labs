@@ -3,7 +3,7 @@ from tree import Node
 from queue import Queue
 
 N = 14
-
+limitdepth = 100
 
 def IDDFS(StartState):
     tree = Node(state=StartState)
@@ -13,7 +13,8 @@ def IDDFS(StartState):
         current.getstate()
         current.expand()
         if current.goaltest():
-            return "Pobyeda"
+            print("Success!")
+            return "Success"
         childs = current.getchild()
         queue.Queueing_Fn(childs)
         if not queue.IsQueusEmpty():
@@ -28,17 +29,23 @@ def IDDFS(StartState):
 def DFS(StartState):
     tree = Node(state=StartState)
     current = tree
-    while current.depth <= N:
+    while True:
         current.getstate()
         current.expand()
         if current.goaltest():
-            return 'Pobyeda'
+            print("Success!")
+            return 'Success'
         current = current.getchild()[0]
+        if current.depth > limitdepth:
+            print("limit depth, no success")
+            break
 
 
 def main():
     startstate = np.array([0, 4, 3, 6, 2, 1, 7, 5, 8])
-    # DFS(StartState=startstate)
+    print("DFS: ")
+    DFS(StartState=startstate)
+    print("IDDFS: ")
     IDDFS(StartState=startstate)
 
 
