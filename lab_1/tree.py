@@ -25,7 +25,6 @@ class Node:
         print("depth is: ", self.depth)
         for i in range(3):
             print(self.state[i*3:i*3 + 3])
-        # print("\n")
 
     def actionproof(self, action):
         return not np.abs(self.action - action) == 1
