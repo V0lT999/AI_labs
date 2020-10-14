@@ -18,4 +18,4 @@ class Queue:
 
     def Queueing_Fn(self, elements):
         for elem in elements:
-            self.Nodes.append(elem)
+            self.Nodes.insert(0, elem)
