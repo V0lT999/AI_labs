@@ -42,8 +42,9 @@ class Node:
 
     # getting child nodes
     def expand(self):
-        self.h[hash(bytes(self.state))] = self
+        #self.h[hash(bytes(self.state))] = self
         indexzero = np.where(self.state == 0)[0]
+        i = 0
         if indexzero[0] % 3 > 0 and self.actionproof(0):
             newstate = self.state.copy()
             newstate[indexzero], newstate[indexzero - 1] = newstate[indexzero - 1], newstate[indexzero]
@@ -52,6 +53,7 @@ class Node:
                     self.h[hash(bytes(newstate))].prev = self
             else:
                 newnode = Node(state=newstate, action=0, prev=self, depth=self.depth + 1)
+                i+=1
                 self.childs.append(newnode)
                 self.h[hash(bytes(newstate))] = newnode
         if indexzero[0] % 3 < 2 and self.actionproof(1):
@@ -63,6 +65,7 @@ class Node:
             else:
                 newnode = Node(state=newstate, action=1, prev=self, depth=self.depth + 1)
                 self.childs.append(newnode)
+                i+=1
                 self.h[hash(bytes(newstate))] = newnode
         if indexzero[0] // 3 < 2 and self.actionproof(3):
             newstate = self.state.copy()
@@ -73,6 +76,7 @@ class Node:
             else:
                 newnode = Node(state=newstate, action=3, prev=self, depth=self.depth + 1)
                 self.childs.append(newnode)
+                i+=1
                 self.h[hash(bytes(newstate))] = newnode
         if indexzero[0] // 3 > 0 and self.actionproof(4):
             newstate = self.state.copy()
@@ -83,4 +87,6 @@ class Node:
             else:
                 newnode = Node(state=newstate, action=4, prev=self, depth=self.depth + 1)
                 self.childs.append(newnode)
+                i+=1
                 self.h[hash(bytes(newstate))] = newnode
+        return i

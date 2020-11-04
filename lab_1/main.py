@@ -10,6 +10,7 @@ weight = 0
 
 def IDFS(StartState):
     global stepscount, weight
+    Node.h = {}
     depth = 0
     # Cycle through depth to the maximum depth
     while depth <= limitdepth:
@@ -51,6 +52,7 @@ def IDFS(StartState):
 
 def DFS(StartState):
     global stepscount
+    Node = {}
     # tree initialisation
     current = Node(state=StartState)
     # queue initialisation
@@ -85,7 +87,7 @@ def DFS(StartState):
 def Apathfind(StartState):
     global weight, stepscount
     aqueue = Aqueue(Node(state=StartState))
-
+    Node.h = {}
     print(aqueue.Nodes)
     #aqueue.Queueing_Fn([])
 
@@ -94,7 +96,7 @@ def Apathfind(StartState):
         current = aqueue.RemoveFront()
         #input()
         #print(aqueue.Nodes)
-        current.getstate()
+        #current.getstate()
         if current.goaltest():
             weight = weight + sys.getsizeof(aqueue)
             result = [current]
@@ -115,17 +117,17 @@ def main():
     limitdepth = int(input("Enter limit depth: "))
 
     # DFS
-    print("DFS: ")
-    stepscount = 0
-    weight =0
-    result = DFS(StartState=startstate)
-    if result != 1:
-        print("Success!")
-        print("step's count is: ", stepscount)
-        for current in result:
-            current.getstate()
-    else:
-        print("The solution is not found")
+#    print("DFS: ")
+#    stepscount = 0
+#    weight =0
+#    result = DFS(StartState=startstate)
+#    if result != 1:
+#        print("Success!")
+#        print("step's count is: ", stepscount)
+#        for current in result:
+#            current.getstate()
+#    else:
+#        print("The solution is not found")
 
     # IDFS
     print("IDDFS: ")
