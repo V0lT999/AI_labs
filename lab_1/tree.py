@@ -1,10 +1,9 @@
 import numpy as np
 
-status = [np.zeros(9)] * 204
-
 class Node:
 
     goalstate = np.array([1, 2, 3, 4, 0, 5, 6, 7, 8])
+    h = {}
     # Initialisation of a node
     def __init__(self, state, action=np.NaN, prev=np.NaN, depth=0):
         self.state = state
@@ -19,21 +18,6 @@ class Node:
             return True
         else:
             return False
-
-    def get_key(self, state):
-        index = 0
-        for i in range(9):
-            index = index + state[i] * i
-        return index
-
-    def add_to_status(self, state):
-        global status
-        index = self.get_key(state=state)
-        for i_state in status[index]:
-            if np.array_equal(state, i_state):
-                return 1
-        status[index] = np.append(status[index], state)
-        return 0
 
     def hfunc(self):
         s = 0
@@ -58,24 +42,53 @@ class Node:
 
     # getting child nodes
     def expand(self):
+        self.h[hash(bytes(self.state))] = self
         indexzero = np.where(self.state == 0)[0]
         if indexzero[0] % 3 > 0 and self.actionproof(0):
             newstate = self.state.copy()
             newstate[indexzero], newstate[indexzero - 1] = newstate[indexzero - 1], newstate[indexzero]
-            if self.add_to_status(newstate) == 0:
-                self.childs.append(Node(state=newstate, action=0, prev=self, depth=self.depth+1))
+            if(self.h.get(hash(bytes(newstate)))):
+                if self.h.get(hash(bytes(newstate))).depth >= self.depth + 1:
+                    newnode = Node(state=newstate, action=0, prev=self, depth=self.depth+1)
+                    self.childs.append(newnode)
+                    self.h[hash(bytes(self.state))] = newnode
+            else:
+                newnode = Node(state=newstate, action=0, prev=self, depth=self.depth + 1)
+                self.childs.append(newnode)
+                self.h[hash(bytes(self.state))] = newnode
         if indexzero[0] % 3 < 2 and self.actionproof(1):
             newstate = self.state.copy()
             newstate[indexzero], newstate[indexzero + 1] = newstate[indexzero + 1], newstate[indexzero]
-            if self.add_to_status(newstate) == 0:
-                self.childs.append(Node(state=newstate, action=1, prev=self, depth=self.depth+1))
+            if (self.h.get(hash(bytes(newstate)))):
+                if self.h.get(hash(bytes(newstate))).depth >= self.depth + 1:
+                    newnode = Node(state=newstate, action=1, prev=self, depth=self.depth+1)
+                    self.childs.append(newnode)
+                    self.h[hash(bytes(self.state))] = newnode
+            else:
+                newnode = Node(state=newstate, action=1, prev=self, depth=self.depth + 1)
+                self.childs.append(newnode)
+                self.h[hash(bytes(self.state))] = newnode
         if indexzero[0] // 3 < 2 and self.actionproof(3):
             newstate = self.state.copy()
             newstate[indexzero], newstate[indexzero + 3] = newstate[indexzero + 3], newstate[indexzero]
-            if self.add_to_status(newstate) == 0:
-                self.childs.append(Node(state=newstate, action=3, prev=self, depth=self.depth+1))
+            if (self.h.get(hash(bytes(newstate)))):
+                if self.h.get(hash(bytes(newstate))).depth >= self.depth + 1:
+                    newnode = Node(state=newstate, action=3, prev=self, depth=self.depth+1)
+                    self.childs.append(newnode)
+                    self.h[hash(bytes(self.state))] = newnode
+            else:
+                newnode = Node(state=newstate, action=3, prev=self, depth=self.depth + 1)
+                self.childs.append(newnode)
+                self.h[hash(bytes(self.state))] = newnode
         if indexzero[0] // 3 > 0 and self.actionproof(4):
             newstate = self.state.copy()
             newstate[indexzero], newstate[indexzero - 3] = newstate[indexzero - 3], newstate[indexzero]
-            if self.add_to_status(newstate) == 0:
-                self.childs.append(Node(state=newstate, action=4, prev=self, depth=self.depth+1))
+            if (self.h.get(hash(bytes(newstate)))):
+                if self.h.get(hash(bytes(newstate))).depth >= self.depth + 1:
+                    newnode = Node(state=newstate, action=4, prev=self, depth=self.depth+1)
+                    self.childs.append(newnode)
+                    self.h[hash(bytes(self.state))] = newnode
+            else:
+                newnode = Node(state=newstate, action=4, prev=self, depth=self.depth + 1)
+                self.childs.append(newnode)
+                self.h[hash(bytes(self.state))] = newnode
