@@ -1,6 +1,6 @@
 import numpy as np
 
-status = np.array(204)
+status = [np.zeros(9)] * 204
 
 class Node:
 
@@ -30,9 +30,9 @@ class Node:
         global status
         index = self.get_key(state=state)
         for i_state in status[index]:
-            if state == i_state:
+            if np.array_equal(state, i_state):
                 return 1
-        status[index] = np.append(status[index], self.state)
+        status[index] = np.append(status[index], state)
         return 0
 
     def hfunc(self):
