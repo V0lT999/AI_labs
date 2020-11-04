@@ -53,6 +53,8 @@ def DFS(StartState):
     global stepscount
     # tree initialisation
     current = Node(state=StartState)
+    # queue initialisation
+    queue = Queue()
     # start of search
     while True:
         # step's counting
@@ -66,8 +68,15 @@ def DFS(StartState):
                 current = current.prev
                 result.append(current)
             return result
-        # getting the first child node
-        current = current.getchild()[0]
+        # getting child nodes
+        childs = current.getchild()
+        # adding child nodes to queue
+        queue.Queueing_Fn(childs)
+        # getting the next node from the queue
+        if not queue.IsQueusEmpty():
+            current = queue.RemoveFront()
+        else:
+            return 1
         # stopping the search if depth's limit was reached
         if current.depth > limitdepth:
             print("The limit depth has been reached, no success")
