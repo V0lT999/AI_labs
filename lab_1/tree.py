@@ -49,46 +49,38 @@ class Node:
             newstate[indexzero], newstate[indexzero - 1] = newstate[indexzero - 1], newstate[indexzero]
             if(self.h.get(hash(bytes(newstate)))):
                 if self.h.get(hash(bytes(newstate))).depth >= self.depth + 1:
-                    newnode = Node(state=newstate, action=0, prev=self, depth=self.depth+1)
-                    self.childs.append(newnode)
-                    self.h[hash(bytes(self.state))] = newnode
+                    self.h[hash(bytes(newstate))].prev = self
             else:
                 newnode = Node(state=newstate, action=0, prev=self, depth=self.depth + 1)
                 self.childs.append(newnode)
-                self.h[hash(bytes(self.state))] = newnode
+                self.h[hash(bytes(newstate))] = newnode
         if indexzero[0] % 3 < 2 and self.actionproof(1):
             newstate = self.state.copy()
             newstate[indexzero], newstate[indexzero + 1] = newstate[indexzero + 1], newstate[indexzero]
             if (self.h.get(hash(bytes(newstate)))):
                 if self.h.get(hash(bytes(newstate))).depth >= self.depth + 1:
-                    newnode = Node(state=newstate, action=1, prev=self, depth=self.depth+1)
-                    self.childs.append(newnode)
-                    self.h[hash(bytes(self.state))] = newnode
+                    self.h[hash(bytes(newstate))].prev = self
             else:
                 newnode = Node(state=newstate, action=1, prev=self, depth=self.depth + 1)
                 self.childs.append(newnode)
-                self.h[hash(bytes(self.state))] = newnode
+                self.h[hash(bytes(newstate))] = newnode
         if indexzero[0] // 3 < 2 and self.actionproof(3):
             newstate = self.state.copy()
             newstate[indexzero], newstate[indexzero + 3] = newstate[indexzero + 3], newstate[indexzero]
             if (self.h.get(hash(bytes(newstate)))):
                 if self.h.get(hash(bytes(newstate))).depth >= self.depth + 1:
-                    newnode = Node(state=newstate, action=3, prev=self, depth=self.depth+1)
-                    self.childs.append(newnode)
-                    self.h[hash(bytes(self.state))] = newnode
+                    self.h[hash(bytes(newstate))].prev = self
             else:
                 newnode = Node(state=newstate, action=3, prev=self, depth=self.depth + 1)
                 self.childs.append(newnode)
-                self.h[hash(bytes(self.state))] = newnode
+                self.h[hash(bytes(newstate))] = newnode
         if indexzero[0] // 3 > 0 and self.actionproof(4):
             newstate = self.state.copy()
             newstate[indexzero], newstate[indexzero - 3] = newstate[indexzero - 3], newstate[indexzero]
             if (self.h.get(hash(bytes(newstate)))):
                 if self.h.get(hash(bytes(newstate))).depth >= self.depth + 1:
-                    newnode = Node(state=newstate, action=4, prev=self, depth=self.depth+1)
-                    self.childs.append(newnode)
-                    self.h[hash(bytes(self.state))] = newnode
+                    self.h[hash(bytes(newstate))].prev = self
             else:
                 newnode = Node(state=newstate, action=4, prev=self, depth=self.depth + 1)
                 self.childs.append(newnode)
-                self.h[hash(bytes(self.state))] = newnode
+                self.h[hash(bytes(newstate))] = newnode
