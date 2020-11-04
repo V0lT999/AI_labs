@@ -10,14 +10,14 @@ def QuickSort(array):
     if len(array) > 1:
         pivot = array[0]
         for x in array:
-            if x[1] < pivot:
+            if x[1] > pivot:
                 less.append(x)
             elif x[1] == pivot:
                 equal.append(x)
-            elif x[1] > pivot:
+            elif x[1] < pivot:
                 greater.append(x)
         # Don't forget to return something!
-        return sort(less)+equal+sort(greater)  # Just use the + operator to join lists
+        return QuickSort(less)+equal+QuickSort(greater)  # Just use the + operator to join lists
     # Note that you want equal ^^^^^ not pivot
     else:  # You need to handle the part at the end of the recursion - when you only have one element in your array, just return the array.
         return array
@@ -48,6 +48,7 @@ class Queue:
 class Aqueue(Queue):
     def __init__(self, node):
         self.Nodes = [(node, node.hfunc())]
+
     def RemoveFront(self):
         result = self.Nodes[0][0]
         self.Nodes.pop(0)
@@ -56,9 +57,16 @@ class Aqueue(Queue):
     def Queueing_Fn(self, elements):
         for elem in elements:
             f = elem.depth + elem.hfunc()
-            i=0
-            while f<self.Nodes[i][1]:
-                i += 1
-            self.Nodes.insert(i, (elem, f))
+            ij=len(self.Nodes)
+
+            if len(self.Nodes)==0:
+                self.Nodes.append((elem, f))
+            else:
+
+                for i in range(len(self.Nodes)):
+                    if f<=self.Nodes[i][1]:
+                        ij=i
+                        break
+                self.Nodes.insert(ij, (elem, f))
             #self.Nodes.append((elem, f))
         #self.Nodes = QuickSort(self.Nodes)

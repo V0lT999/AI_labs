@@ -83,6 +83,9 @@ def Apathfind(StartState):
     while True:
         stepscount = stepscount + 1
         current = aqueue.RemoveFront()
+        #input()
+        #print(aqueue.Nodes)
+        current.getstate()
         if current.goaltest():
             weight = weight + sys.getsizeof(aqueue)
             result = [current]
