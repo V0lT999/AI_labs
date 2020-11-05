@@ -36,7 +36,7 @@ def IDFS(StartState):
                 current.expand()
             # if a solution is found, output the results
             if current.goaltest():
-                weight = weight + sys.getsizeof(queue)
+                weight = sys.getsizeof(Node.h)
                 result = [current]
                 while current.depth != 0:
                     current = current.prev
@@ -48,7 +48,6 @@ def IDFS(StartState):
             queue.Queueing_Fn(childs)
             # getting the next node from the queue
             if not queue.IsQueusEmpty():
-                weight = weight + sys.getsizeof(current)
                 current = queue.RemoveFront()
             else:
                 flag = False
@@ -57,7 +56,7 @@ def IDFS(StartState):
 
 
 def DFS(StartState):
-    global stepscount, mode
+    global stepscount, mode, weight
     # Update hashtable
     Node.h = {}
     # tree initialisation
@@ -76,6 +75,7 @@ def DFS(StartState):
         current.expand()
         # if a solution is found, output the results
         if current.goaltest():
+            weight = sys.getsizeof(Node.h)
             result = [current]
             while current.depth != 0:
                 current = current.prev
@@ -108,7 +108,7 @@ def Apathfind(StartState):
         current = aqueue.RemoveFront()
         # if a solution is found, output the results
         if current.goaltest():
-            weight = weight + sys.getsizeof(aqueue)
+            weight = sys.getsizeof(Node.h)
             result = [current]
             while current.depth != 0:
                 current = current.prev
@@ -121,12 +121,6 @@ def Apathfind(StartState):
         # show current condition for step mode
         if mode == 1:
             print(current.getstate())
-            # if heuristic == 0:
-            #     for i in aqueue.Nodes:
-            #         print(i.h1func())
-            # else:
-            #     for i in aqueue.Nodes:
-            #         print(i.h1func())
             s = ""
             for i in aqueue.Nodes:
                 s += (str(i[1]) + " ")
@@ -149,6 +143,7 @@ def main():
     if result != 1:
         print("Success!")
         print("step's count is: ", stepscount)
+        print("size is: ", weight)
         show = int(input("Show the sequence? (0 - no, 1 - yes): "))
         if show == 1:
             for current in result:
