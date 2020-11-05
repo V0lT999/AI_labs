@@ -46,10 +46,15 @@ class Queue:
 
 
 class Aqueue(Queue):
+
+    heuristic = 0
+
     def __init__(self, node):
         super().__init__()
-        self.Nodes.append((node, node.h1func()))
-
+        if self.heuristic == 0:
+            self.Nodes.append((node, node.h1func()))
+        else:
+            self.Nodes.append((node, node.h2func()))
     def RemoveFront(self):
         result = self.Nodes[0][0]
         self.Nodes.pop(0)
@@ -57,7 +62,11 @@ class Aqueue(Queue):
 
     def Queueing_Fn(self, elements):
         for elem in elements:
-            f = elem.depth + elem.h1func()
+            f = 0
+            if self.heuristic == 1:
+                f = elem.depth + elem.h2func()
+            else:
+                f = elem.depth + elem.h1func()
             ij=len(self.Nodes)
 
             if len(self.Nodes)==0:

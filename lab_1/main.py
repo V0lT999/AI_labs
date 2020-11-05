@@ -6,7 +6,7 @@ import sys
 limitdepth = 100
 stepscount = 0
 weight = 0
-
+heuristic = 0
 
 def IDFS(StartState):
     global stepscount, weight
@@ -86,9 +86,10 @@ def DFS(StartState):
             return 1
 
 def Apathfind(StartState):
-    global weight, stepscount
+    global weight, stepscount, heuristic
     aqueue = Aqueue(Node(state=StartState))
     Node.h = {}
+    Aqueue.heuristic = heuristic
     print(aqueue.Nodes)
     #aqueue.Queueing_Fn([])
 
@@ -112,7 +113,7 @@ def Apathfind(StartState):
 def main():
     # initialisation of variables
     startstate = np.array([0, 4, 3, 6, 2, 1, 7, 5, 8])
-    global stepscount, limitdepth, weight
+    global stepscount, limitdepth, weight, heuristic
 
     # The input of the death's limit
     limitdepth = int(input("Enter limit depth: "))
@@ -144,18 +145,20 @@ def main():
     else:
         print("The solution is not found")
 
-    print("A*: ")
-    stepscount = 0
-    weight = 0
-    result = Apathfind(StartState=startstate)
-    if result != 1:
-        print("Success!")
-        print("step's count is: ", stepscount)
-        print("size is: ", weight)
-        # for current in result:
-        #     current.getstate()
-    else:
-        print("The solution is not found")
+    for i in range(2):
+        print("A* (h{0}): ".format(i))
+        heuristic = i
+        stepscount = 0
+        weight = 0
+        result = Apathfind(StartState=startstate)
+        if result != 1:
+            print("Success!")
+            print("step's count is: ", stepscount)
+            print("size is: ", weight)
+            # for current in result:
+            #     current.getstate()
+        else:
+            print("The solution is not found")
 
 
 # start of the program
