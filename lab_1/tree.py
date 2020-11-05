@@ -1,9 +1,10 @@
 import numpy as np
 
-class Node:
 
+class Node:
     goalstate = np.array([1, 2, 3, 4, 0, 5, 6, 7, 8])
     h = {}
+
     # Initialisation of a node
     def __init__(self, state, action=np.NaN, prev=np.NaN, depth=0):
         self.state = state
@@ -23,7 +24,7 @@ class Node:
         s = 0
         for i in range(len(self.goalstate)):
             if self.goalstate[i] != self.state[i]:
-                s +=1
+                s += 1
         return s
 
     # return child nodes
@@ -34,7 +35,7 @@ class Node:
     def getstate(self):
         print("depth is: ", self.depth)
         for i in range(3):
-            print(self.state[i*3:i*3 + 3])
+            print(self.state[i * 3:i * 3 + 3])
 
     # The check of the repeating of the action
     def actionproof(self, action):
@@ -42,18 +43,18 @@ class Node:
 
     # getting child nodes
     def expand(self):
-        #self.h[hash(bytes(self.state))] = self
+        # self.h[hash(bytes(self.state))] = self
         indexzero = np.where(self.state == 0)[0]
         i = 0
         if indexzero[0] % 3 > 0 and self.actionproof(0):
             newstate = self.state.copy()
             newstate[indexzero], newstate[indexzero - 1] = newstate[indexzero - 1], newstate[indexzero]
-            if(self.h.get(hash(bytes(newstate)))):
+            if (self.h.get(hash(bytes(newstate)))):
                 if self.h.get(hash(bytes(newstate))).depth >= self.depth + 1:
                     self.h[hash(bytes(newstate))].prev = self
             else:
                 newnode = Node(state=newstate, action=0, prev=self, depth=self.depth + 1)
-                i+=1
+                i += 1
                 self.childs.append(newnode)
                 self.h[hash(bytes(newstate))] = newnode
         if indexzero[0] % 3 < 2 and self.actionproof(1):
@@ -65,7 +66,7 @@ class Node:
             else:
                 newnode = Node(state=newstate, action=1, prev=self, depth=self.depth + 1)
                 self.childs.append(newnode)
-                i+=1
+                i += 1
                 self.h[hash(bytes(newstate))] = newnode
         if indexzero[0] // 3 < 2 and self.actionproof(3):
             newstate = self.state.copy()
@@ -76,7 +77,7 @@ class Node:
             else:
                 newnode = Node(state=newstate, action=3, prev=self, depth=self.depth + 1)
                 self.childs.append(newnode)
-                i+=1
+                i += 1
                 self.h[hash(bytes(newstate))] = newnode
         if indexzero[0] // 3 > 0 and self.actionproof(4):
             newstate = self.state.copy()
@@ -87,6 +88,6 @@ class Node:
             else:
                 newnode = Node(state=newstate, action=4, prev=self, depth=self.depth + 1)
                 self.childs.append(newnode)
-                i+=1
+                i += 1
                 self.h[hash(bytes(newstate))] = newnode
         return i

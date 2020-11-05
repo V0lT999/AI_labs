@@ -47,7 +47,8 @@ class Queue:
 
 class Aqueue(Queue):
     def __init__(self, node):
-        self.Nodes = [(node, node.h1func())]
+        super().__init__()
+        self.Nodes.append((node, node.h1func()))
 
     def RemoveFront(self):
         result = self.Nodes[0][0]
