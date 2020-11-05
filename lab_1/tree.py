@@ -22,7 +22,7 @@ class Node:
     def hfunc(self):
         s = 0
         for i in range(len(self.goalstate)):
-            if self.goalstate[i] == self.state[i]:
+            if self.goalstate[i] != self.state[i]:
                 s +=1
         return s
 
