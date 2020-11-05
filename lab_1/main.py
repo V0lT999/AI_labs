@@ -3,17 +3,20 @@ from tree import Node
 from queue import Queue, Aqueue
 import sys
 
-limitdepth = 100
 stepscount = 0
 weight = 0
 heuristic = 0
+mode = 0
+
 
 def IDFS(StartState):
-    global stepscount, weight
+    global stepscount, weight, mode
+    # Update hashtable
     Node.h = {}
+    # Install current depth
     depth = 0
     # Cycle through depth to the maximum depth
-    while depth <= limitdepth:
+    while True:
         Node.h = {}
         # tree initialisation
         current = Node(state=StartState)
@@ -22,6 +25,10 @@ def IDFS(StartState):
         flag = True
         # depth cycle
         while flag:
+            # show current condition for step mode
+            if mode == 1:
+                print(current.getstate())
+                input("Press enter to continue...")
             # step's counting
             stepscount = stepscount + 1
             # the decomposition of the node
@@ -47,12 +54,11 @@ def IDFS(StartState):
                 flag = False
         # increasing the depth
         depth = depth + 1
-    # return 1 if we can't find solution
-    return 1
 
 
 def DFS(StartState):
-    global stepscount
+    global stepscount, mode
+    # Update hashtable
     Node.h = {}
     # tree initialisation
     current = Node(state=StartState)
@@ -60,6 +66,10 @@ def DFS(StartState):
     queue = Queue()
     # start of search
     while True:
+        # show current condition for step mode
+        if mode == 1:
+            print(current.getstate())
+            input("Press enter to continue...")
         # step's counting
         stepscount = stepscount + 1
         # the decomposition of the node
@@ -80,25 +90,23 @@ def DFS(StartState):
             current = queue.RemoveFront()
         else:
             return 1
-        # stopping the search if depth's limit was reached
-        if current.depth > limitdepth:
-            print("The limit depth has been reached, no success")
-            return 1
+
 
 def Apathfind(StartState):
     global weight, stepscount, heuristic
+    # Initialisation of queue for A*
     aqueue = Aqueue(Node(state=StartState))
+    # Update hashtable
     Node.h = {}
+    # Set current heuristic function
     Aqueue.heuristic = heuristic
-    print(aqueue.Nodes)
-    #aqueue.Queueing_Fn([])
 
     while True:
+        # steps counting
         stepscount = stepscount + 1
+        # getting the next element
         current = aqueue.RemoveFront()
-        #input()
-        #print(aqueue.Nodes)
-        #current.getstate()
+        # if a solution is found, output the results
         if current.goaltest():
             weight = weight + sys.getsizeof(aqueue)
             result = [current]
@@ -106,33 +114,52 @@ def Apathfind(StartState):
                 current = current.prev
                 result.append(current)
             return result
+        # the decomposition of the node
         current.expand()
+        # adding child nodes to queue
         aqueue.Queueing_Fn(current.getchild())
+        # show current condition for step mode
+        if mode == 1:
+            print(current.getstate())
+            # if heuristic == 0:
+            #     for i in aqueue.Nodes:
+            #         print(i.h1func())
+            # else:
+            #     for i in aqueue.Nodes:
+            #         print(i.h1func())
+            s = ""
+            for i in aqueue.Nodes:
+                s += (str(i[1]) + " ")
+            print(s)
+            input("Press enter to continue...")
 
 
 def main():
     # initialisation of variables
     startstate = np.array([0, 4, 3, 6, 2, 1, 7, 5, 8])
-    global stepscount, limitdepth, weight, heuristic
-
-    # The input of the death's limit
-    limitdepth = int(input("Enter limit depth: "))
+    global stepscount, weight, heuristic, mode
 
     #DFS
     print("DFS: ")
+    # The input mode
+    mode = int(input("Enter mode (0 - end-to-end mode, 1 - step mode): "))
     stepscount = 0
-    weight =0
+    weight = 0
     result = DFS(StartState=startstate)
     if result != 1:
         print("Success!")
         print("step's count is: ", stepscount)
-        # for current in result:
-        #     current.getstate()
+        show = int(input("Show the sequence? (0 - no, 1 - yes): "))
+        if show == 1:
+            for current in result:
+                current.getstate()
     else:
         print("The solution is not found")
 
     # IDFS
     print("IDDFS: ")
+    # The input mode
+    mode = int(input("Enter mode (0 - end-to-end mode, 1 - step mode): "))
     stepscount = 0
     weight = 0
     result = IDFS(StartState=startstate)
@@ -140,13 +167,17 @@ def main():
         print("Success!")
         print("step's count is: ", stepscount)
         print("size is: ", weight)
-        # for current in result:
-        #     current.getstate()
+        show = int(input("Show the sequence? (0 - no, 1 - yes): "))
+        if show == 1:
+            for current in result:
+                current.getstate()
     else:
         print("The solution is not found")
 
     for i in range(2):
         print("A* (h{0}): ".format(i))
+        # The input mode
+        mode = int(input("Enter mode (0 - end-to-end mode, 1 - step mode): "))
         heuristic = i
         stepscount = 0
         weight = 0
@@ -155,8 +186,10 @@ def main():
             print("Success!")
             print("step's count is: ", stepscount)
             print("size is: ", weight)
-            # for current in result:
-            #     current.getstate()
+            show = int(input("Show the sequence? (0 - no, 1 - yes): "))
+            if show == 1:
+                for current in result:
+                    current.getstate()
         else:
             print("The solution is not found")
 
