@@ -47,7 +47,7 @@ class Queue:
 
 class Aqueue(Queue):
     def __init__(self, node):
-        self.Nodes = [(node, node.hfunc())]
+        self.Nodes = [(node, node.h1func())]
 
     def RemoveFront(self):
         result = self.Nodes[0][0]
@@ -56,7 +56,7 @@ class Aqueue(Queue):
 
     def Queueing_Fn(self, elements):
         for elem in elements:
-            f = elem.depth + elem.hfunc()
+            f = elem.depth + elem.h1func()
             ij=len(self.Nodes)
 
             if len(self.Nodes)==0:

@@ -19,7 +19,7 @@ class Node:
         else:
             return False
 
-    def hfunc(self):
+    def h1func(self):
         s = 0
         for i in range(len(self.goalstate)):
             if self.goalstate[i] != self.state[i]:
