@@ -26,6 +26,13 @@ class Node:
                 s +=1
         return s
 
+    def h2func(self):
+        s = 0
+        for i in range(len(self.state)):
+            index, = np.where(self.goalstate == self.state[i])
+            s += abs((index - i) // 2) + abs((index - i) % 3)
+        return s
+
     # return child nodes
     def getchild(self):
         return self.childs
