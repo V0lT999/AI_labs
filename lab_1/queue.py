@@ -1,5 +1,3 @@
-from tree import Node
-import numpy as np
 def QuickSort(array):
     """Sort the array by using quicksort."""
 
