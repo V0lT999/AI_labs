@@ -14,6 +14,7 @@ def IDFS(StartState):
     depth = 0
     # Cycle through depth to the maximum depth
     while depth <= limitdepth:
+        Node.h = {}
         # tree initialisation
         current = Node(state=StartState)
         # queue initialisation
@@ -52,7 +53,7 @@ def IDFS(StartState):
 
 def DFS(StartState):
     global stepscount
-    Node = {}
+    Node.h = {}
     # tree initialisation
     current = Node(state=StartState)
     # queue initialisation
@@ -116,18 +117,18 @@ def main():
     # The input of the death's limit
     limitdepth = int(input("Enter limit depth: "))
 
-    # DFS
-#    print("DFS: ")
-#    stepscount = 0
-#    weight =0
-#    result = DFS(StartState=startstate)
-#    if result != 1:
-#        print("Success!")
-#        print("step's count is: ", stepscount)
-#        for current in result:
-#            current.getstate()
-#    else:
-#        print("The solution is not found")
+    #DFS
+    print("DFS: ")
+    stepscount = 0
+    weight =0
+    result = DFS(StartState=startstate)
+    if result != 1:
+        print("Success!")
+        print("step's count is: ", stepscount)
+        # for current in result:
+        #     current.getstate()
+    else:
+        print("The solution is not found")
 
     # IDFS
     print("IDDFS: ")
@@ -138,8 +139,8 @@ def main():
         print("Success!")
         print("step's count is: ", stepscount)
         print("size is: ", weight)
-        for current in result:
-            current.getstate()
+        # for current in result:
+        #     current.getstate()
     else:
         print("The solution is not found")
 
@@ -151,8 +152,8 @@ def main():
         print("Success!")
         print("step's count is: ", stepscount)
         print("size is: ", weight)
-        for current in result:
-            current.getstate()
+        # for current in result:
+        #     current.getstate()
     else:
         print("The solution is not found")
 
