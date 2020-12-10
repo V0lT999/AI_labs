@@ -31,7 +31,7 @@ class Node:
         s = 0
         for i in range(len(self.state)):
             index, = np.where(self.goalstate == self.state[i])
-            s += abs((index - i) // 2) + abs((index - i) % 3)
+            s += abs((index[0] //3 - i // 3)) + abs((index[0] % 3- i % 3))
         return s
 
     # return child nodes
